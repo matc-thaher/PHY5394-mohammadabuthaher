@@ -6,13 +6,13 @@ L = 10;
 f_0 = 5;
 f_1 = 7;
 phase = 0;
-% Instantaneous frequency after 1 sec is
-instFreq = f_0 + 2 * f_1 * (1 - t_a);
-samplFreq = instFreq;
+% Maximum instantaneous frequency after t_a + L sec is
+maxinstFreq = f_0 + 2 * f_1 * L;
+samplFreq = maxinstFreq/20;
 samplIntrvl = 1/samplFreq;
 
 % Time samples
-timedata = -100:samplIntrvl: 100;
+timedata = -20:samplIntrvl:20;
 % Number of samples
 nSamples = length(timedata);
 % Generate the signal
