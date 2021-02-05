@@ -1,8 +1,8 @@
 %% Plot the linear transient chirp signal
 % Signal parameters
 A = 5;
-t_a = 0.7;
-L = 3;
+t_a = 3.5;
+L = 4;
 f_0 = 2;
 f_1 = 5;
 phase = 0;
@@ -12,7 +12,7 @@ samplFreq = 5 * maxinstFreq;
 samplIntrvl = 1/samplFreq;
 
 % Time samples
-timedata = -5:samplIntrvl:5;
+timedata = 0:samplIntrvl:10;
 % Number of samples
 nSamples = length(timedata);
 % Generate the signal
@@ -39,4 +39,7 @@ fftSig = fftSig(1:kNyq);
 
 %Plot periodogram
 figure;
-plot(posFreq,abs(fftSig));
+plot(posFreq,abs(fftSig), 'm -');
+xlabel("Frequency in Hz(only positive value)")
+ylabel("Fourier transform values of s(t)")
+title("Fast Fourier Transform of Linear Transient Chirp Signal")
