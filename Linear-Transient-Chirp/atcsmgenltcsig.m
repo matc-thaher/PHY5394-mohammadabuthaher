@@ -11,14 +11,14 @@ function sigVec = atcsmgenltcsig(timeData,timeSteps,snr,freq, phase)
 
 %Mohammad Abu Thaher Chowdhury, January 2021
 
-phaseVec = freq(1) * (timeData - timeSteps(1)) + freq(2) * (timeData - timeSteps(1)).^2 + (phase / (2 * pi));
-trigSin = sin(2 * pi * phaseVec);
-sigVec = snr * trigSin/norm(trigSin);
+phaseVec = zeros(1,length(timeData));
+trigSin = zeros(1,length(timeData));
+sigVec = zeros(1,length(timeData));
 for x = 1: length(timeData)
     if timeData(x) >= timeSteps(1) && timeData(x) <= timeSteps(2)
-        sigVec(x) = sigVec(x);
-    elseif timeData(x) < timeSteps(1) || timeData(x) > timeSteps(2)
-        sigVec(x) = 0;
+        phaseVec(x) = freq(1) * (timeData(x) - timeSteps(1)) + freq(2) * (timeData(x) - timeSteps(1)).^2 + (phase / (2 * pi));
+        trigSin(x) = sin(2 * pi .* phaseVec(x));
+        sigVec(x) = snr .* trigSin(x)/(norm(trigSin(x)));
     end
 end
 
