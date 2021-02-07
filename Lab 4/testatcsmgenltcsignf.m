@@ -10,10 +10,10 @@ phase = 0;
 % Maximum instantaneous frequency after t_a + L sec is
 maxinstFreq = f_0 + 2 * f_1 * L;
 
-% Sample Frequency with 5 time of Maximum Frequency
+% Sample Frequency with 5 times of the Maximum Frequency
 samplFreq1 = 5 * maxinstFreq;
 samplIntrvl = 1/samplFreq1;
-% Sample Frequency with 1/2 time of Maximum Frequency
+% Sample Frequency with 1/2 times of the Maximum Frequency
 samplFreq2 = 5 * maxinstFreq;
 samplIntrv2 = 1/samplFreq2;
 
