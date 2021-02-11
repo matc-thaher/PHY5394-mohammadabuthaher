@@ -9,16 +9,16 @@ function sigVec = atcsmgenltcsignf(timeData,timeSteps,snr,freq, phase)
 % FQ and TS components that parametrize the phase of the signal:
 % f_0 * (t - t_a) + f_1 * (t - t_a).^2 + (phase / (2 * pi). 
 
-%Mohammad Abu Thaher Chowdhury, January 2021
+%Mohammad Abu Thaher Chowdhury, February 2021
 
-phaseVec = zeros(1,length(timeData));
-trigSin = zeros(1,length(timeData));
-sigVec = zeros(1,length(timeData));
+phaseVec = freq(1) * (timeData - timeSteps(1)) + freq(2) * (timeData - timeSteps(1)).^2 + (phase / (2 * pi));
+trigSin = sin(2 * pi * phaseVec);
+sigVec = snr * trigSin/norm(trigSin);
 for x = 1: length(timeData)
     if timeData(x) >= timeSteps(1) && timeData(x) <= timeSteps(2)
-        phaseVec(x) = freq(1) * (timeData(x) - timeSteps(1)) + freq(2) * (timeData(x) - timeSteps(1)).^2 + (phase / (2 * pi));
-        trigSin(x) = sin(2 * pi .* phaseVec(x));
-        sigVec(x) = snr .* trigSin(x)/(norm(trigSin(x)));
+        sigVec(x) = sigVec(x);
+    elseif timeData(x) < timeSteps(1) || timeData(x) > timeSteps(2)
+        sigVec(x) = 0;
     end
 end
 
