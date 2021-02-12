@@ -95,12 +95,42 @@ kNyq = floor(nsamples/2)+1;
 posFreq = (0:(kNyq-1))*(1/dataLen);
 % FFT of signal
 fftSig = fft(sigvec);
-% Discard negative frequencies
+fftSig_l = fft(filtSig_l);
+fftSig_h = fft(filtSig_h);
+fftSig_b = fft(filtSig_b);
+% Discard negative Frequencies
 fftSig = fftSig(1:kNyq);
+fftSig_l = fftSig_l(1:kNyq);
+fftSig_h = fftSig_h(1:kNyq);
+fftSig_b = fftSig_b(1:kNyq);
 
 %Plot periodogram
 figure;
-plot(posFreq,abs(fftSig), 'm -');
+
+%plot of input signal
+subplot(4,1,1)
+plot(posFreq,abs(fftSig), 'm -')
 xlabel("Frequency in Hz(only positive value)")
 ylabel("DFT values of s(t)")
-title("Discrete Fourier Transform of the Signal")
+title("Discrete Fourier Transform of Input Signal")
+
+%plot of periodogram of low pass filter
+subplot(4,1,2)
+plot(posFreq, abs(fftSig_l), 'g -')
+xlabel("Frequency in Hz(only positive value)")
+ylabel("DFT values of s(t)")
+title("Discrete Fourier Transform of low pass filtered signal")
+
+% Plot of periodogram of band pass filter
+subplot(4,1,3)
+plot(posFreq, abs(fftSig_h), 'r -')
+xlabel("Frequency in Hz(only positive value)")
+ylabel("DFT values of s(t)")
+title("Discrete Fourier Transform of high pass filtered signal")
+
+% Plot of periodogram of band pass filter
+subplot(4,1,4)
+plot(posFreq, abs(fftSig_b), 'b -')
+xlabel("Frequency in Hz(only positive value)")
+ylabel("DFT values of s(t)")
+title("Discrete Fourier Transform of band pass filtered signal")
