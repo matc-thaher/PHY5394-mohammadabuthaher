@@ -84,3 +84,23 @@ legend(["Original Signal (s(t))", "Filtered Signal (s(t))"], "Location", "bestou
 ylabel('s(t)')
 xlabel('Time in sec')
 title("Band pass filter of signal")
+
+%% Plot the Periodogram
+%--------------
+%Length of data 
+dataLen = timeData(end)-timeData(1);
+%DFT sample corresponding to Nyquist frequency
+kNyq = floor(nsamples/2)+1;
+% Positive Fourier frequencies
+posFreq = (0:(kNyq-1))*(1/dataLen);
+% FFT of signal
+fftSig = fft(sigvec);
+% Discard negative frequencies
+fftSig = fftSig(1:kNyq);
+
+%Plot periodogram
+figure;
+plot(posFreq,abs(fftSig), 'm -');
+xlabel("Frequency in Hz(only positive value)")
+ylabel("DFT values of s(t)")
+title("Discrete Fourier Transform of the Signal")
