@@ -41,6 +41,6 @@ figure;
 plot(timedata2,sigVec2, '* -')
 xlabel("Time in sec")
 ylabel("s(t)")
-title("Linear Transient Chirp Signal (Nyquist frequency = 1/2 * Maximum Frequency)")
+title(['Linear Transient Chirp Signal (Sampling frequency =',num2str(samplFreq2),' Hz)']);
 
 
