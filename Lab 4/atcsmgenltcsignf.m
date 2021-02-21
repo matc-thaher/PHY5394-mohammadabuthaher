@@ -11,14 +11,9 @@ function sigVec = atcsmgenltcsignf(timeData,timeSteps,snr,freq, phase)
 
 %Mohammad Abu Thaher Chowdhury, February 2021
 
-phaseVec = freq(1) * (timeData - timeSteps(1)) + freq(2) * (timeData - timeSteps(1)).^2 + (phase / (2 * pi));
+idxt = find(timeData>=timeSteps(1) & timeData <= timeSteps(2));
+sigVec = zeros(1, length(timeData));
+phaseVec = freq(1) * (timeData(idxt) - timeSteps(1)) + freq(2) * (timeData(idxt) - timeSteps(1)).^2 + (phase / (2 * pi));
 trigSin = sin(2 * pi * phaseVec);
-sigVec = snr * trigSin/norm(trigSin);
-for x = 1: length(timeData)
-    if timeData(x) >= timeSteps(1) && timeData(x) <= timeSteps(2)
-        sigVec(x) = sigVec(x);
-    elseif timeData(x) < timeSteps(1) || timeData(x) > timeSteps(2)
-        sigVec(x) = 0;
-    end
-end
+sigVec(idxt) = snr * trigSin/norm(trigSin);
 
