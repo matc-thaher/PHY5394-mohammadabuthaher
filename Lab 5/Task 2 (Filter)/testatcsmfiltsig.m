@@ -27,7 +27,7 @@ sigvec = atcsmfiltsig([A_01,A_02,A_03], [f_01, f_02, f_03], [phase_01, phase_02,
 
 %% Low pass Filter of the signal
 %Filter order
-fN = 30;
+fN = 50;
  
 %Design the digital filter
 filtDes = fir1(fN, (1.5 * f_01)/samplFreq, 'low');
@@ -37,7 +37,8 @@ filtSig_l = fftfilt(filtDes, sigvec);
 
 %% High pass Filter of the signal
 %Design the digital filter
-filtDes = fir1(fN, (0.7 * f_03)/samplFreq, 'high');
+%filtDes = fir1(fN, (0.7 * f_03)/samplFreq, 'high');
+filtDes = fir1(fN, (0.8 * f_03)/samplFreq, 'high');
  
 % Applying high pass filter on signal
 filtSig_h = fftfilt(filtDes, sigvec);
