@@ -1,8 +1,8 @@
 %% Plot the spectrogram, periodogram and the linear transient chirp signal
 % Signal parameters
 A = 2;
-t_a = 0.3;
-L = 1.4;
+t_a = 0.4;
+L = 1.2;
 f_0 = 5;
 f_1 = 15;
 phase = 0;
