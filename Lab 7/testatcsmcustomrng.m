@@ -1,16 +1,20 @@
 %% Plotting the distribution
 
 % Parameters of Uniform Distribution
+un_i = 1;
+un_f = 100;
 a = -2;
 b = 1;
 % Parameters of Normal Distribution
+no_i = 1;
+no_f = 100;
 m = 1.5;
 s = 2.0;
 
 % Call the function for Uniform Distribution Calculation 
-resultUnfmDist = customrand(a,b);
+resultUnfmDist = customrand(a,b, un_i, un_f);
 % Call the function for Normal Distribution Calculation 
-resultNrmlDist = customrandn(m,s);
+resultNrmlDist = customrandn(m,s, no_i, no_f);
 
 %% PDF Calculation
 % PDF calculation of Uniform Distribution
@@ -22,14 +26,14 @@ pdfUniform(idxt) = 1/(b-a);
 %% Histogram and Plots of Distribution
 % Plotting the Uniform Distribution
 figure;
-k = histogram(resultUnfmDist, 'normalization', 'pdf', 'BinWidth', 0.2);
+un_f = histogram(resultUnfmDist, 'normalization', 'pdf', 'BinWidth', 0.2);
 
 % Plotting pdf curve on Uniform Distribution graph
 hold on
 plot(xRangeU, pdfUniform, 'LineWidth', 2)
 hold off
 title('Uniform Distribution')
-xlabel("Result(values using random variable X")
+xlabel("Result(values using random variable X)")
 ylabel("p_x(x) = U(x:a,b)")
 legend(["Normalized Uniform Distribution", "Uniform PDF Curve"], 'Location', 'northeast')
 
@@ -48,5 +52,5 @@ plot(xRangeN, pdfNormal, 'LineWidth', 2)
 hold off
 title('Normal Distribution')
 ylabel("p_x(x) = N(x:mu, sigma)")
-xlabel("Result(values using random variable x")
+xlabel("Result(values using random variable x)")
 legend(["Normalized Normal Distribution", "Normal PDF Curve"], 'Location', 'northeast')
