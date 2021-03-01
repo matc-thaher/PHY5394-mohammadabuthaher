@@ -1,4 +1,4 @@
-function resultUD = customrand(a,b)
+function resultUD = customrand(a,b,j,k)
 % Generate a uniform distribution values for a certain range
 % UD = CUSTOMRAND(A,B)
 % Generates a uniform distrbution values UD. A is the lower or starting
@@ -6,7 +6,7 @@ function resultUD = customrand(a,b)
 
 % Mohammad Abu Thaher Chowdhury, February 2021
 
-x = rand(1,1000);
+x = rand(j,k);
 resultUD = (b-a) .* x + a;
 
 
