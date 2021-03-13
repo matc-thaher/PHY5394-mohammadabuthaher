@@ -98,7 +98,7 @@ function outNoise = whitenning(inNoise,psdVals,fltrOrdr,sampFreq)
 
 % Design FIR filter with T(f)= square root of PSD
 freqVec = psdVals(:,1);
-sqrtPSD = sqrt(psdVals(:,2));
+sqrtPSD = 1./sqrt(psdVals(:,2));
 rtiosampfreqVec = sampFreq/freqVec(end);
 b = fir2(fltrOrdr,((rtiosampfreqVec * freqVec)/sampFreq),sqrtPSD);
 
