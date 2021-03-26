@@ -6,13 +6,18 @@ sampFreq = 1024; %Hz
 ligoData = readtable('iLIGOSensitivity.txt');
 ligoData.Properties.VariableNames = ["Frequency", "sqrtPSD"];
 
-% Adding frequency 0 and psd value
-sqrtPSD = var(ligoData.sqrtPSD);
-Frequency = 0;
-T1 = table(Frequency, sqrtPSD);
-ligoData = [T1;ligoData];
+%% Data Modifications
+% Adding frequency 0, 50, fs/2 and 700, along with psd Value, to the data by linear interpolation
+freqVal = 0:700;
+PSDval = interp1(ligoData.Frequency, ligoData.sqrtPSD, freqVal);
+T2 = table(freqVal, PSDval);
+idx3 = find(T2.freqVal == 0 | T2.freqVal == sampFreq/2| T2.freqVal == 50 | T2.freqVal == 700);
+Frequency = (T2.freqVal(idx3))';
+sqrtPSD = (T2.PSDval(idx3))';
+T3 = table(Frequency, sqrtPSD);
+ligoData = [ligoData;T3];
+ligoData = sortrows(ligoData,'Frequency','ascend');
 
-%% Editing data
 % Making the values constant before and after 50 hz and 700 hz respectively
 for idx1 = find(ligoData.Frequency <= 50)
 ligoData.sqrtPSD(idx1) = ligoData.sqrtPSD(idx1(end));
@@ -21,16 +26,6 @@ for idx2 = find(ligoData.Frequency >= 700)
 ligoData.sqrtPSD(idx2) = ligoData.sqrtPSD(idx2(1));
 end
 
-% Adding frequency fs/2 and psd Value to the data by linear interpolation
-freqVal = 50:700;
-PSDval = interp1(ligoData.Frequency, ligoData.sqrtPSD, freqVal);
-T2 = table(freqVal, PSDval);
-idx3 = find(T2.freqVal == sampFreq/2);
-Frequency = T2.freqVal(idx3);
-sqrtPSD = T2.PSDval(idx3);
-T3 = table(Frequency, sqrtPSD);
-ligoData = [ligoData;T3];
-ligoData = sortrows(ligoData,'Frequency','ascend');
 
 % checking constant data before 50 hz and 700 hz with logarithmic plot
 figure;
