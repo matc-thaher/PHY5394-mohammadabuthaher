@@ -1,6 +1,8 @@
 %% Generate a WGN realization and filter it using
 %Sampling frequency for noise realization
-sampFreq = 1024; %Hz
+sampFreq = 4096; %Hz
+%SDM: Number of samples
+nSamples = 20*sampFreq;
 
 % importing the data
 ligoData = readtable('iLIGOSensitivity.txt');
@@ -8,7 +10,7 @@ ligoData.Properties.VariableNames = ["Frequency", "sqrtPSD"];
 
 %% Data Modifications
 % Adding frequency 0, 50, fs/2 and 700, along with psd Value, to the data by linear interpolation
-freqVal = 0:700;
+freqVal = 0:(sampFreq/2);
 PSDval = interp1(ligoData.Frequency, ligoData.sqrtPSD, freqVal);
 T2 = table(freqVal, PSDval);
 idx3 = find(T2.freqVal == 0 | T2.freqVal == sampFreq/2| T2.freqVal == 50 | T2.freqVal == 700);
@@ -35,11 +37,17 @@ ylabel("log of square root of (s_n(f)")
 title("Data Modification")
 ylim([(1 * 10^-23) (16 * 10^-22)])
 
-%% Designing a filter using PSD data
-fltrOrdr = 30000;
-ratioVal = sampFreq/ligoData.Frequency(end);
-b = fir2(fltrOrdr,ligoData.Frequency * ratioVal/(sampFreq),ligoData.sqrtPSD);
+%% SDM: First limit the frequency values
+SDM_fVals = ligoData.Frequency;
+SDM_fVals(SDM_fVals > sampFreq/2) = [];
+SDM_sqrtPSD = ligoData.sqrtPSD;
+SDM_sqrtPSD = SDM_sqrtPSD(1:length(SDM_fVals));
 
+%% Designing a filter using PSD data
+fltrOrdr = 300;
+% ratioVal = sampFreq/ligoData.Frequency(end);
+% b = fir2(fltrOrdr,ligoData.Frequency * ratioVal/(sampFreq),ligoData.sqrtPSD);
+b = fir2(fltrOrdr,SDM_fVals/(sampFreq/2),SDM_sqrtPSD);
 %% Generating White Gaussian Noise from PSD values
 % Creating noise by calling the function
 noise1 = genNoisefrmPSD(ligoData.sqrtPSD);
@@ -49,15 +57,20 @@ noise4 = genNoisefrmPSD(ligoData.sqrtPSD);
 noise5 = genNoisefrmPSD(ligoData.sqrtPSD);
 
 % concatenating noise tables into one noise table
-inNoise = vertcat(noise1, noise2, noise3, noise4, noise5);
+% inNoise = vertcat(noise1, noise2, noise3, noise4, noise5);
+inNoise = randn(1,nSamples);
 
 % Passed the noise through the filter, built by using PSD value
 outNoise = fftfilt(b,inNoise);
 
-%% Estimate the PSD
-%[pxxo, fo]= pwelch(outNoise, 128, [], [], sampFreq);
 figure;
-pwelch(outNoise)
+plot((0:(nSamples-1))/sampFreq, outNoise);
+
+%% Estimate the PSD
+[pxxo, fo]= pwelch(outNoise, sampFreq, [], [], sampFreq);
+figure;
+%pwelch(outNoise)
+loglog(fo,pxxo);
 
 %% Function for creating white gaussian noise from PSD
 function testnoise = genNoisefrmPSD(a)
