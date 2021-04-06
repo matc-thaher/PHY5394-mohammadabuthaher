@@ -125,7 +125,8 @@ fprintf("GLRT value for second QC signal = %d\n", glrt2)
 fprintf("GLRT value for third QC signal = %d\n", glrt3)
 %% Likelihood test - null hypothesis
 % data realization
-noiseRlztn = 2 + 20 .* randn(1, 80000);
+m = 80000;
+noiseRlztn = statgaussnoisegen(m,[posFreq(:),psdPosFreq(:)],100,sampFreq);
 
 % Number of gamma >= gamma(observed)
 gamma1 = numel(find(noiseRlztn >= glrt1));
