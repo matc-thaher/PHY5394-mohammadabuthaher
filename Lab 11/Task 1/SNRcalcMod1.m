@@ -1,5 +1,7 @@
 %% Normalization of linear transient chirp signal for a given SNR
-
+%SDM ****************************************
+%Replace the path below with that of your own copy of DATASCIENCE_COURSE
+addpath /Users/Soumya/Documents/TEMP/DATASCIENCE_COURSE/DETEST/
 % This is the target SNR for the LR
 snr = 10;
 

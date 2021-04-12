@@ -1,7 +1,9 @@
 %% Calculate GLRT for Quadratic chirp signal 
 % Generalized Likelihood ratio test (GLRT) for a quadratic chirp when only
 % the amplitude is unknown.
-
+addpath /Users/Soumya/Documents/TEMP/DATASCIENCE_COURSE/DETEST/
+addpath /Users/Soumya/Documents/TEMP/DATASCIENCE_COURSE/SIGNALS/
+addpath '/Users/Soumya/Documents/TEMP/PHY5394-mohammadabuthaher/Lab 11/Task 3';
 %% Parameters for data realization
 % Number of samples and sampling frequency.
 nSamples = 2048;
@@ -120,9 +122,9 @@ glrt1 = glrtqcsig(timeVec, A, sampFreq, dataVec1, psdPosFreq, [a1, a2, a3]);
 glrt2 = glrtqcsig(timeVec, A, sampFreq, dataVec2, psdPosFreq, [a1, a2, a3]);
 glrt3 = glrtqcsig(timeVec, A, sampFreq, dataVec3, psdPosFreq, [a1, a2, a3]);
 
-fprintf("GLRT value for first QC signal = %d\n", glrt1)
-fprintf("GLRT value for second QC signal = %d\n", glrt2)
-fprintf("GLRT value for third QC signal = %d\n", glrt3)
+fprintf(1,"GLRT value for first QC signal = %d\n", glrt1)
+fprintf(1,"GLRT value for second QC signal = %d\n", glrt2)
+fprintf(1,"GLRT value for third QC signal = %d\n", glrt3)
 %% Likelihood test - null hypothesis
 % data realization
 m = 80000;
@@ -138,6 +140,6 @@ pr1 = gamma1/length(noiseRlztn);
 pr2 = gamma2/length(noiseRlztn);
 pr3 = gamma3/length(noiseRlztn);
 
-fprintf("Estimation significance for first QC signal = %d\n", pr1)
-fprintf("Estimation significance for second QC signal = %d\n", pr2)
-fprintf("Estimation significance for third QC signal = %d\n", pr3)
+fprintf(1,"Estimation significance for first QC signal = %d\n", pr1)
+fprintf(1,"Estimation significance for second QC signal = %d\n", pr2)
+fprintf(1,"Estimation significance for third QC signal = %d\n", pr3)
