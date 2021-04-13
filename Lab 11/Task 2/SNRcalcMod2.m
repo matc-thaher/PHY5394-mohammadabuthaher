@@ -1,22 +1,20 @@
 %% Normalize the linear Transient Chirp signal for a given SNR
-%SDM **************************
 %Path to signal generation code (should be to lab 2 actually?)
 addpath '../Task 1'
 % Path added to previous lab containing the iLIGO PSD file
 addpath '../../Lab 8/Part 2'
 %Replace the path below with that of your own copy of DATASCIENCE_COURSE
-addpath /Users/Soumya/Documents/TEMP/DATASCIENCE_COURSE/DETEST/
+%addpath /Users/Soumya/Documents/TEMP/DATASCIENCE_COURSE/DETEST/
+addpath '../../Lab 11/Functions'
 %******************************
 % This is the target SNR for the LR
 snr = 10;
 
 %% Data generation parameters
 nSamples = 2048;
-%SDM**************************
 %Since we want to have the LIGO PSD up to at least 700 Hz, the Nyquist rate
 %has to be higher. Hence, the sampling frequency has to be higher.
 sampFreq = 2048;
-%******************************
 
 
 %% Generate the signal that is to be normalized
@@ -36,10 +34,10 @@ sigVec = atcsmgenltcsig(timeVec,[t_a, t_a + L], A,[f_0,f_1], phase);
 
 %% NOise PSD
 % importing the data and modify it
-data = load("iLIGOSensitivity.txt", 'ascii');
+data = load("iLIGOSensitivity.txt", '-ascii');
 data = [data; [0, var(data(:,2))]];
 data = sortrows(data, 'ascend');
-noisePSD = data(:, 2);
+noisePSD = data(:, 2).^2;
 freqVal = data(:,1);
 
 %% Generation of the PSD vector for positive DFT values 
@@ -49,27 +47,15 @@ posFreq = (0:(kNyq-1))*(1/dataLen);
 psdPosFreq = interp1(freqVal, noisePSD, posFreq);
 
 % Data modification
-LIGOdata = table(posFreq', psdPosFreq');
-idx = find(LIGOdata.Var1 == 50);
-for i = 1:idx
-    LIGOdata.Var2(i) = LIGOdata.Var2(idx);
-end
-PSDVals = LIGOdata.Var2';
-
-%SDM**************************
+idx1 = find(posFreq <= 50);
+psdPosFreq(idx1) = psdPosFreq(idx1(end)); 
 %Also need to flatten above 700 Hz.
-idx = find(posFreq >= 700, 1 );
-PSDVals(idx:end)=PSDVals(idx);
-figure;
-loglog(posFreq,PSDVals);
-% PSD sent to innerprodpsd, statgaussnoisegen; not sqrt(PSD) given in
-% iLIGOsensitivity.txt
-PSDVals = PSDVals.^2;
-%*****************************
+idx2 = find(posFreq >= 700);
+psdPosFreq(idx2)=psdPosFreq(idx2(end));
 
 %% Calculation of the norm
 % Norm of signal squared is inner product of signal with itself
-normSigSqrd = innerprodpsd(sigVec,sigVec,sampFreq,PSDVals);
+normSigSqrd = innerprodpsd(sigVec,sigVec,sampFreq,psdPosFreq);
 % Normalize signal to specified SNR
 sigVec = snr*sigVec/sqrt(normSigSqrd);
 
@@ -78,8 +64,8 @@ sigVec = snr*sigVec/sqrt(normSigSqrd);
 nH0Data = 1000;
 llrH0 = zeros(1,nH0Data);
 for lp = 1:nH0Data
-    noiseVec = statgaussnoisegen(nSamples,[posFreq(:),PSDVals(:)],100,sampFreq);
-    llrH0(lp) = innerprodpsd(noiseVec,sigVec,sampFreq,PSDVals);
+    noiseVec = statgaussnoisegen(nSamples,[posFreq(:),psdPosFreq(:)],100,sampFreq);
+    llrH0(lp) = innerprodpsd(noiseVec,sigVec,sampFreq,psdPosFreq);
 end
 % figure;
 % pwelch(noiseVec,128,[],[],sampFreq);
@@ -88,10 +74,10 @@ end
 nH1Data = 1000;
 llrH1 = zeros(1,nH1Data);
 for lp = 1:nH0Data
-    noiseVec = statgaussnoisegen(nSamples,[posFreq(:),PSDVals(:)],100,sampFreq);
+    noiseVec = statgaussnoisegen(nSamples,[posFreq(:),psdPosFreq(:)],100,sampFreq);
     % Add normalized signal
     dataVec = noiseVec + sigVec;
-    llrH1(lp) = innerprodpsd(dataVec,sigVec,sampFreq,PSDVals);
+    llrH1(lp) = innerprodpsd(dataVec,sigVec,sampFreq,psdPosFreq);
 end
 %% SNR estimate
 % Signal to noise ratio estimate
