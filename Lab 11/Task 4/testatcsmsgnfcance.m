@@ -1,9 +1,8 @@
 %% Calculate GLRT for Quadratic chirp signal 
 % Generalized Likelihood ratio test (GLRT) for a quadratic chirp when only
 % the amplitude is unknown.
-addpath /Users/Soumya/Documents/TEMP/DATASCIENCE_COURSE/DETEST/
-addpath /Users/Soumya/Documents/TEMP/DATASCIENCE_COURSE/SIGNALS/
-addpath '/Users/Soumya/Documents/TEMP/PHY5394-mohammadabuthaher/Lab 11/Task 3';
+addpath '../../Lab 11/Functions'
+addpath '../../Lab 11/Task 3';
 %% Parameters for data realization
 % Number of samples and sampling frequency.
 nSamples = 2048;
@@ -126,19 +125,30 @@ fprintf(1,"GLRT value for first QC signal = %d\n", glrt1)
 fprintf(1,"GLRT value for second QC signal = %d\n", glrt2)
 fprintf(1,"GLRT value for third QC signal = %d\n", glrt3)
 %% Likelihood test - null hypothesis
-% data realization
-m = 80000;
-noiseRlztn = statgaussnoisegen(m,[posFreq(:),psdPosFreq(:)],100,sampFreq);
+% data realization parameters
+m = 60000;
+glrtH0 = zeros(1,m);
+
+% fir2 filter
+sqrtPSD = sqrt(psdPosFreq);
+b = fir2(100,posFreq/(sampFreq/2),sqrtPSD);
+
+for s = 1:m
+% Generate a WGN realization to pass through filter
+inNoise = randn(1,nSamples);
+outNoise = sqrt(sampFreq)*fftfilt(b,inNoise);
+glrtH0(s) = glrtqcsig(timeVec,A,sampFreq,outNoise,psdPosFreq,[a1,a2,a3]);
+end
 
 % Number of gamma >= gamma(observed)
-gamma1 = numel(find(noiseRlztn >= glrt1));
-gamma2 = numel(find(noiseRlztn >= glrt2));
-gamma3 = numel(find(noiseRlztn >= glrt3));
+gamma1 = numel(find(glrtH0 >= glrt1));
+gamma2 = numel(find(glrtH0 >= glrt2));
+gamma3 = numel(find(glrtH0 >= glrt3));
 
 % probability
-pr1 = gamma1/length(noiseRlztn);
-pr2 = gamma2/length(noiseRlztn);
-pr3 = gamma3/length(noiseRlztn);
+pr1 = gamma1/length(glrtH0);
+pr2 = gamma2/length(glrtH0);
+pr3 = gamma3/length(glrtH0);
 
 fprintf(1,"Estimation significance for first QC signal = %d\n", pr1)
 fprintf(1,"Estimation significance for second QC signal = %d\n", pr2)
