@@ -4,8 +4,8 @@ addpath '../Task 1'
 % Path added to previous lab containing the iLIGO PSD file
 addpath '../../Lab 8/Part 2'
 %Replace the path below with that of your own copy of DATASCIENCE_COURSE
-%addpath /Users/Soumya/Documents/TEMP/DATASCIENCE_COURSE/DETEST/
-addpath '../../Lab 11/Functions'
+addpath 'D:\UTRGV_Spring_2021\Statistical_Methods\DATASCIENCE_COURSE\NOISE'
+addpath 'D:\UTRGV_Spring_2021\Statistical_Methods\DATASCIENCE_COURSE\DETEST'
 %******************************
 % This is the target SNR for the LR
 snr = 10;
