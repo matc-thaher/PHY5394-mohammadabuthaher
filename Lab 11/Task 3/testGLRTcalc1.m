@@ -3,7 +3,7 @@
 % the amplitude is unknown.
 addpath 'D:\UTRGV_Spring_2021\Statistical_Methods\DATASCIENCE_COURSE\DETEST'
 addpath 'D:\UTRGV_Spring_2021\Statistical_Methods\DATASCIENCE_COURSE\NOISE'
-
+addpath 'D:\UTRGV_Spring_2021\Statistical_Methods\DATASCIENCE_COURSE\SIGNALS'
 %% Parameters for data realization
 % Number of samples and sampling frequency.
 nSamples = 2048;
