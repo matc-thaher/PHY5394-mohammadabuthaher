@@ -1,5 +1,7 @@
 %% Normalization of linear transient chirp signal for a given SNR
-addpath '../../Lab 11/Functions'
+% changed the path according to the local repository
+addpath 'D:\UTRGV_Spring_2021\Statistical_Methods\DATASCIENCE_COURSE\DETEST'
+addpath 'D:\UTRGV_Spring_2021\Statistical_Methods\DATASCIENCE_COURSE\NOISE'
 % This is the target SNR for the LR
 snr = 10;
 
