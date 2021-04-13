@@ -1,7 +1,8 @@
 %% Calculate GLRT for Quadratic chirp signal 
 % Generalized Likelihood ratio test (GLRT) for a quadratic chirp when only
 % the amplitude is unknown.
-addpath '../../Lab 11/Functions'
+% Replace the path according to the local repository
+addpath 'D:\UTRGV_Spring_2021\Statistical_Methods\DATASCIENCE_COURSE\DETEST'
 addpath '../../Lab 11/Task 3';
 %% Parameters for data realization
 % Number of samples and sampling frequency.
