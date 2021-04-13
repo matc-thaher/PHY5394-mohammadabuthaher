@@ -1,7 +1,5 @@
 %% Normalization of linear transient chirp signal for a given SNR
-%SDM ****************************************
-%Replace the path below with that of your own copy of DATASCIENCE_COURSE
-addpath /Users/Soumya/Documents/TEMP/DATASCIENCE_COURSE/DETEST/
+addpath '../../Lab 11/Functions'
 % This is the target SNR for the LR
 snr = 10;
 
@@ -16,8 +14,8 @@ sampFreq = 1024;
 A = 5;
 t_a = 0.4;
 L = 1.3;
-f_0 = 2;
-f_1 = 5;
+f_0 = 50;
+f_1 = 70;
 phase = 0;
 
 % Time samples
