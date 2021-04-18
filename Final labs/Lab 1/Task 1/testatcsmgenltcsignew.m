@@ -14,11 +14,9 @@ samplFreq = 2048;
 timedata = (0:nSamples-1)/samplFreq;
 
 % struct of the vectors
-sigTime = struct('sTsig', t_a, 'fTsig', t_a+L);
-sigFreq = struct('inFreq', f_0, 'fnFreq', f_1);
-
+sigParameters = struct('sTsig', t_a, 'fTsig', t_a + L, 'inFreq', f_0, 'fnFreq', f_1, 'phase', 0);
 % Generate the signal
-sigVec = atcsmgenltcsignew(timedata,sigTime,A,sigFreq,phase);
+sigVec = atcsmgenltcsignew(timedata,A, sigParameters);
 
 %% Plots
 % Plot the time series 
