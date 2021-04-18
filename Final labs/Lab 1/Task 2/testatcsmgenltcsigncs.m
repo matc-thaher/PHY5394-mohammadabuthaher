@@ -17,12 +17,13 @@ samplFreq = 2048;
 timedata = (0:nSamples-1)/samplFreq;
 
 % struct of the vectors
-sigTime = struct('sTsig', t_a, 'fTsig', t_a+L);
-sigFreq = struct('inFreq', f_0, 'fnFreq', f_1);
+%sigTime = struct('sTsig', t_a, 'fTsig', t_a+L);
+%sigFreq = struct('inFreq', f_0, 'fnFreq', f_1);
+sigParameters = struct('sTsig', t_a, 'fTsig', t_a + L, 'inFreq', f_0, 'fnFreq', f_1, 'phase', 0);
 snr = struct('snr1', 10, 'snr2', 12, 'snr3', 15);
 
 % Generate the signal using function handle
-H = @(snr) atcsmgenltcsignew(timedata,sigTime,snr,sigFreq,phase);
+H = @(snr) atcsmgenltcsignew(timedata,snr,sigParameters);
 
 %% Plot the time series of the signal 
 figure;
