@@ -12,9 +12,9 @@ m = 1.5;
 s = 2.0;
 
 % Call the function for Uniform Distribution Calculation 
-resultUnfmDist = customrand(a,b, un_i, un_f);
+resultUnfmDist = customrand(a,b, [un_i, un_f]);
 % Call the function for Normal Distribution Calculation 
-resultNrmlDist = customrandn(m,s, no_i, no_f);
+resultNrmlDist = customrandn(m,s, [no_i, no_f]);
 
 %% PDF Calculation
 % PDF calculation of Uniform Distribution

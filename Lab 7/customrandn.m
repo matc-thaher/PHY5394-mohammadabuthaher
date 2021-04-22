@@ -1,4 +1,4 @@
-function resultND = customrandn(m,s, h, i)
+function resultND = customrandn(m,s, no)
 % Generate a normal distribution values for a certain range
 % ND = CUSTOMRANDN(M,S)
 % Generates a normal distrbution values ND. M is the mean and S is the 
@@ -6,5 +6,5 @@ function resultND = customrandn(m,s, h, i)
 
 % Mohammad Abu Thaher Chowdhury, February 2021_
 
-x = randn(h, i);
+x = randn(no(1), no(2));
 resultND = s .* x + m;

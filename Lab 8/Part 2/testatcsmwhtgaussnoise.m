@@ -32,8 +32,8 @@ end
 % checking constant data before 50 hz and 700 hz with logarithmic plot
 figure;
 loglog(ligoData.Frequency,ligoData.sqrtPSD)
-xlabel("log of Frequency ")
-ylabel("log of square root of (s_n(f)")
+xlabel("Frequency ")
+ylabel("Square root of (s_n(f)")
 title("Data Modification")
 ylim([(1 * 10^-23) (16 * 10^-22)])
 
@@ -50,11 +50,7 @@ fltrOrdr = 300;
 b = fir2(fltrOrdr,SDM_fVals/(sampFreq/2),SDM_sqrtPSD);
 %% Generating White Gaussian Noise from PSD values
 % Creating noise by calling the function
-noise1 = genNoisefrmPSD(ligoData.sqrtPSD);
-noise2 = genNoisefrmPSD(ligoData.sqrtPSD);
-noise3 = genNoisefrmPSD(ligoData.sqrtPSD);
-noise4 = genNoisefrmPSD(ligoData.sqrtPSD);
-noise5 = genNoisefrmPSD(ligoData.sqrtPSD);
+% noise1 = genNoisefrmPSD(ligoData.sqrtPSD);
 
 % concatenating noise tables into one noise table
 % inNoise = vertcat(noise1, noise2, noise3, noise4, noise5);

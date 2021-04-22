@@ -133,7 +133,7 @@ glrtH0 = zeros(1,m);
 
 % fir2 filter
 sqrtPSD = sqrt(psdPosFreq);
-b = fir2(100,posFreq/(sampFreq/2),sqrtPSD);
+%b = fir2(100,posFreq/(sampFreq/2),sqrtPSD);
 
 for s = 1:m
 % Generate a WGN realization to pass through filter
