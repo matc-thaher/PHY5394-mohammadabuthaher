@@ -59,4 +59,4 @@ qc = sin(2.*pi.*phaseVec);
 qc =  qc./normFac;
 
 % Compute fitness
-ssrVal = (innerprodpsd(params.dataY,qc,params.sampFreq,params.psdVal))^2;
+ssrVal = -(innerprodpsd(params.dataY,qc,params.sampFreq,params.psdVal))^2;
