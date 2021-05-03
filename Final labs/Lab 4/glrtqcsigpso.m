@@ -67,10 +67,12 @@ for lpruns = 1:nRuns
     outResults.allRunsOutput(lpruns).fitVal = fitVal(lpruns);
     [~,qcCoefs] = fHandle(outStruct(lpruns).bestLocation);
     outResults.allRunsOutput(lpruns).qcCoefs = qcCoefs;
-    [~,~,estSig1] = glrtqcsig4pso4(qcCoefs, inParams);
-    %qc = crcbgenqcsig(inParams.dataX, 1, qcCoefs);
+    %estimating signal using glrtqcsig4pso4 and crcbgenqcsig
+    % After normalizing, both estimated signal give same result
+    [~,~,estSig1] = glrtqcsig4pso4(qcCoefs, inParams); %glrtqcsig4pso4 signal
+    [estSig,~] = normsig4psd(estSig1,inParams.sampFreq,inParams.psdVal,10/22); %normalizing
+    %qc = crcbgenqcsig(inParams.dataX, 1, qcCoefs); %crcbgenqc signal
     %[estSig,~] = normsig4psd(qc,inParams.sampFreq,inParams.psdVal,10/22);
-    [estSig,~] = normsig4psd(estSig1,inParams.sampFreq,inParams.psdVal,10/22);
     estAmp = innerprodpsd(inParams.dataY,estSig,inParams.sampFreq,inParams.psdVal)^2;
     estSig = estAmp*estSig;
     outResults.allRunsOutput(lpruns).estSig = estSig;
