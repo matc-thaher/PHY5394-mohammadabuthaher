@@ -1,11 +1,11 @@
 %% Calculate GLRT for Quadratic chirp signal 
 % Generalized Likelihood ratio test (GLRT) for a quadratic chirp when only
 % the amplitude is unknown.
-addpath 'D:\UTRGV_Spring_2021\Statistical_Methods\DATASCIENCE_COURSE\DETEST'
-addpath 'D:\UTRGV_Spring_2021\Statistical_Methods\DATASCIENCE_COURSE\NOISE'
-addpath 'D:\UTRGV_Spring_2021\Statistical_Methods\DATASCIENCE_COURSE\SIGNALS'
-addpath 'D:\UTRGV_Spring_2021\Statistical_Methods\SDMBIGDAT19\CODES'
-addpath 'D:\UTRGV_Spring_2021\Statistical_Methods\PHY5394-mohammadabuthaher\Lab 11\Task 3'
+% addpath 'D:\UTRGV_Spring_2021\Statistical_Methods\DATASCIENCE_COURSE\DETEST'
+% addpath 'D:\UTRGV_Spring_2021\Statistical_Methods\DATASCIENCE_COURSE\NOISE'
+% addpath 'D:\UTRGV_Spring_2021\Statistical_Methods\DATASCIENCE_COURSE\SIGNALS'
+% addpath 'D:\UTRGV_Spring_2021\Statistical_Methods\SDMBIGDAT19\CODES'
+addpath '../../Lab 11/Task 3'
 %% Parameters for data realization
 % Number of samples and sampling frequency.
 nSamples = 2048;
@@ -36,15 +36,16 @@ noiseVec = statgaussnoisegen(nSamples,[posFreq(:),psdPosFreq(:)],100,sampFreq);
 dataVec1 = noiseVec+qcData;
 
 % Array for xVec
-A = linspace(1,15, length(timeVec));
+A1 = [4, 14];
 A2 = [1 5];
 A3 = [1 5];
+A = linspace(A1(1),A1(2), 100);
 x1 = ones(1, length(A));
 x2 = ones(1, length(A));
 x3 = ones(1, length(A));
-x1(1,:) = (A - min(A))./ (max(A) - min(A));
-x2(1,:) = (a2 - min(A2))./ (max(A2) - min(A2));
-x3(1,:) = (a3 - min(A3))./ (max(A3) - min(A3));
+x1(1,:) = (A - A1(1))./ (A1(2) - A1(1));
+x2(1,:) = (a2 - A2(1))./ (A2(2) - A2(1));
+x3(1,:) = (a3 - A3(1))./ (A3(2) - A3(1));
 xVec = [x1;x2;x3]';
 
 % struct of parameters
@@ -53,10 +54,9 @@ ffparams = struct('dataY', dataVec1,...
     'dataXSq', timeVec.^2,...
     'dataXCb', timeVec.^3,...
     'psdVal', psdPosFreq,...
-    'snr', snr,...
     'sampFreq', sampFreq,...
-    'rmin', [1,1,1],...
-    'rmax', [15,5,5]); 
+    'rmin', [A1(1),A2(1),A3(1)],...
+    'rmax', [A1(2),A2(2),A3(2)]); 
 %% Fitness Value
 % Compute the fitness value
 fitVal = glrtqcsig4pso(xVec, ffparams);

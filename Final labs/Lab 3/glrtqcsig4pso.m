@@ -54,9 +54,9 @@ phaseVec = x(1).*params.dataX + x(2).*params.dataXSq + x(3).*params.dataXCb;
 qc = sin(2.*pi.*phaseVec);
 
 % Compute norm for colored data
-[~,normFac] = normsig4psd(qc, params.sampFreq, params.psdVal, params.snr);
+[qc,~] = normsig4psd(qc, params.sampFreq, params.psdVal, 1);
 % Colored QC
-qc =  qc./normFac;
+%qc =  qc./normFac;
 
 % Compute fitness
 ssrVal = -(innerprodpsd(params.dataY,qc,params.sampFreq,params.psdVal))^2;
