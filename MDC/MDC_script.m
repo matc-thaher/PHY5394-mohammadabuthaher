@@ -1,11 +1,11 @@
 % Adding path for the specific functions and data
-% addpath 'D:\UTRGV_Spring_2021\Statistical_Methods\DATASCIENCE_COURSE\MDC'
-% addpath 'D:\UTRGV_Spring_2021\Statistical_Methods\PHY5394-mohammadabuthaher\Final labs\Lab 4'
-% addpath 'D:\UTRGV_Spring_2021\Statistical_Methods\DATASCIENCE_COURSE\DETEST'
-% addpath 'D:\UTRGV_Spring_2021\Statistical_Methods\DATASCIENCE_COURSE\SIGNALS'
-% addpath 'D:\UTRGV_Spring_2021\Statistical_Methods\DATASCIENCE_COURSE\NOISE'
-% addpath 'D:\UTRGV_Spring_2021\Statistical_Methods\SDMBIGDAT19\CODES'
-% addpath 'D:\UTRGV_Spring_2021\Statistical_Methods\PHY5394-mohammadabuthaher\Lab 11\Task 4'
+ addpath 'D:\UTRGV_Spring_2021\Statistical_Methods\DATASCIENCE_COURSE\MDC'
+ addpath 'D:\UTRGV_Spring_2021\Statistical_Methods\PHY5394-mohammadabuthaher\Final labs\Lab 4'
+ addpath 'D:\UTRGV_Spring_2021\Statistical_Methods\DATASCIENCE_COURSE\DETEST'
+ addpath 'D:\UTRGV_Spring_2021\Statistical_Methods\DATASCIENCE_COURSE\SIGNALS'
+ addpath 'D:\UTRGV_Spring_2021\Statistical_Methods\DATASCIENCE_COURSE\NOISE'
+ addpath 'D:\UTRGV_Spring_2021\Statistical_Methods\SDMBIGDAT19\CODES'
+ addpath 'D:\UTRGV_Spring_2021\Statistical_Methods\PHY5394-mohammadabuthaher\Lab 11\Task 4'
 
 % Loading the data
 trData = load('TrainingData.mat');
@@ -74,11 +74,10 @@ outStruct = glrtqcsigpso(inParams,struct('maxSteps',2000),nRuns);
 
 %% Computing glrt
 glrtPSO = -outStruct.bestFitness;
- %% Maximum Likelihood estimation
-%SDM************************
- %What is this??
-mle = log(1/(2 * pi)^(1/2)) - outStruct.bestFitness;
-%***************************
+
+%mle
+llr = sqrt(glrtPSO);
+
 %% Estimation
 % data realization parameters
 m = 2000;
@@ -91,9 +90,9 @@ outNoise = statgaussnoisegen(nSamples,[posFreq(:),psdPosFreq(:)],100,anData.samp
 %exactly the same method as was used on the analysis data vector. This
 %means running PSO on each noise realization. This means that you don't need to use
 %the estimated signal parameters.
-glrt= glrtqcsig(timeVec, 10, anData.sampFreq, outNoise, psdPosFreq, outStruct.bestQcCoefs);
+glrt4work= glrtqcsig(timeVec, 10, anData.sampFreq, outNoise, psdPosFreq, outStruct.bestQcCoefs);
 %*******************
-glrtH0PSO(s) = glrt;
+glrtH0PSO(s) = glrt4work;
 end
 
 
